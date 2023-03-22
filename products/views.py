@@ -2,6 +2,14 @@ from django.shortcuts import render, HttpResponseRedirect
 from products.models import ProductCategory, Product, Basket
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from rest_framework import viewsets
+from .serializers import ProductSerializer
+
+
+# let's try add some API
+class ProductViewSet(viewsets.ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 
 def index(request):
