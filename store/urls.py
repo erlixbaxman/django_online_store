@@ -19,6 +19,8 @@ from products.views import *
 from django.conf.urls.static import static
 from django.conf import settings
 from rest_framework import routers
+from rest_framework.schemas import get_schema_view
+from django.views.generic import TemplateView
 
 
 router = routers.SimpleRouter()
@@ -31,6 +33,8 @@ urlpatterns = [
     path('products/', include('products.urls', namespace='products')),
     path('users/', include('users.urls', namespace='users')),
     path('api/v1/', include(router.urls)),
+    path('api_schema', get_schema_view(title="API Documentation", description='Guide for the REST API'), name='api_schema'),
+    path('docs/', TemplateView.as_view(template_name='docs.html', extra_context={'schema_url':'api_schema'})),
 
 ]
 
