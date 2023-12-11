@@ -6,7 +6,6 @@ from rest_framework import viewsets
 from .serializers import ProductSerializer
 
 
-# let's try add some API
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
