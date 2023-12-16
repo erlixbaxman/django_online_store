@@ -8,6 +8,7 @@ from users.models import *
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from common.views import TitleMixin
+from django.views.generic.base import TemplateView
 
 
 class UserLoginView(TitleMixin, LoginView):
@@ -102,3 +103,18 @@ class UserProfileView(TitleMixin, UpdateView):
 # def logout(request):
 #     auth.logout(request)
 #     return HttpResponseRedirect(reverse('index'))
+
+class EmailVerificationView(TitleMixin, TemplateView):
+    title = 'Store - Подтверждение электронной почты'
+    template_name = 'users/email_verification.html'
+
+    def get(self, request, *args, **kwargs):
+        code = kwargs['code']
+        user = User.objects.get(email=kwargs['email'])
+        email_verification = EmailVerification.objects.filter(user=user, code=code)
+        if email_verification.exists() and not email_verification.first().is_expired():
+            user.is_verificated_email = True
+            user.save()
+            return super(EmailVerificationView, self).get(request, *args, **kwargs)
+        else:
+            return HttpResponseRedirect(reverse('index'))
