@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from .serializers import ProductSerializer
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
+from common.views import TitleMixin
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -13,13 +14,14 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
 
 
-class IndexView(TemplateView):
+class IndexView(TitleMixin, TemplateView):
     template_name = 'products/index.html'
+    title = 'Store'
 
-    def get_context_data(self, **kwargs):
-        context = super(IndexView, self).get_context_data()
-        context['title'] = 'Store'
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(IndexView, self).get_context_data()
+    #     context['title'] = 'Store'
+    #     return context
 
 
 # def index(request):
@@ -27,10 +29,11 @@ class IndexView(TemplateView):
 #     return render(request, 'products/index.html', context)
 
 
-class ProductsListView(ListView):
+class ProductsListView(TitleMixin, ListView):
     model = Product
     template_name = 'products/products.html'
     paginate_by = 3
+    title = "Store - Каталог"
 
     def get_queryset(self):
         queryset = super(ProductsListView, self).get_queryset()
@@ -39,7 +42,7 @@ class ProductsListView(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(ProductsListView, self).get_context_data()
-        context['title'] = "Store - Каталог"
+        # context['title'] = "Store - Каталог"
         context['categories'] = ProductCategory.objects.all()
         return context
 

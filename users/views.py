@@ -6,11 +6,14 @@ from products.models import Basket
 from django.views.generic.edit import CreateView, UpdateView
 from users.models import *
 from django.contrib.auth.views import LoginView
+from django.contrib.messages.views import SuccessMessageMixin
+from common.views import TitleMixin
 
 
-class UserLoginView(LoginView):
+class UserLoginView(TitleMixin, LoginView):
     form_class = UserLoginForm
     template_name = 'users/login.html'
+    title = 'Store - Авторизация'
 
 
 # def login(request):
@@ -29,16 +32,18 @@ class UserLoginView(LoginView):
 #     return render(request, "users/login.html", context)
 
 
-class UserRegistrationView(CreateView):
+class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):
     model = User
     form_class = UserRegistrationForm
     template_name = 'users/register.html'
     success_url = reverse_lazy('users:login')
+    success_message = 'Вы успешно зарегестрировались!'
+    title = 'Store - Регистрация'
 
-    def get_context_data(self, **kwargs):
-        context = super(UserRegistrationView, self).get_context_data()
-        context['title'] = 'Store - Регистрация'
-        return context
+    # def get_context_data(self, **kwargs):
+    #     context = super(UserRegistrationView, self).get_context_data()
+    #     context['title'] = 'Store - Регистрация'
+    #     return context
 
 # def register(request):
 #     if request.method == "POST":
@@ -54,17 +59,18 @@ class UserRegistrationView(CreateView):
 #     return render(request, "users/register.html", context)
 
 
-class UserProfileView(UpdateView):
+class UserProfileView(TitleMixin, UpdateView):
     model = User
     form_class = UserProfileForm
     template_name = 'users/profile.html'
+    title = 'Store - Личный кабинет'
 
     def get_success_url(self):
         return reverse_lazy('users:profile', args=(self.object.id,))
 
     def get_context_data(self, **kwargs):
         context = super(UserProfileView, self).get_context_data()
-        context['title'] = 'Store - Личный кабинет'
+        # context['title'] = 'Store - Личный кабинет'
         context['baskets'] = Basket.objects.filter(user=self.object)
         return context
 
