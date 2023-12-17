@@ -7,7 +7,8 @@ class ProductCategory(models.Model):
     description = models.TextField(blank=True)
 
     class Meta:
-        verbose_name_plural = 'Product Categories'
+        verbose_name = 'category'
+        verbose_name_plural = 'categories'
 
     def __str__(self):
         return self.name
@@ -20,10 +21,22 @@ class Product(models.Model):
     short_description = models.CharField(max_length=64, blank=True)
     price = models.DecimalField(max_digits=8, decimal_places=2, default=0)
     quantity = models.PositiveIntegerField(default=0)
-    category = models.ForeignKey(ProductCategory, on_delete=models.CASCADE)
+    category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'product'
+        verbose_name_plural = 'products'
 
     def __str__(self):
-        return f'{self.name} | {self.category}'
+        return f'Продукт: {self.name} | Категория: {self.category.name}'
+
+
+class BasketQuerySet(models.QuerySet):
+    def total_sum(self):
+        return sum(basket.sum() for basket in self)
+
+    def total_quantity(self):
+        return sum(basket.quantity for basket in self)
 
 
 class Basket(models.Model):
@@ -31,6 +44,8 @@ class Basket(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
     created_timestamp = models.DateTimeField(auto_now_add=True)
+
+    objects = BasketQuerySet.as_manager()
 
     def __str__(self):
         return f'Корзина для {self.user.username} | Продукт {self.product.name}'
