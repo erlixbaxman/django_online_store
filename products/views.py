@@ -1,12 +1,13 @@
-from django.shortcuts import render, HttpResponseRedirect
-from products.models import ProductCategory, Product, Basket
 from django.contrib.auth.decorators import login_required
-from django.core.paginator import Paginator
-from rest_framework import viewsets
-from .serializers import ProductSerializer
+from django.shortcuts import HttpResponseRedirect
 from django.views.generic.base import TemplateView
 from django.views.generic.list import ListView
+from rest_framework import viewsets
+
 from common.views import TitleMixin
+from products.models import Basket, Product, ProductCategory
+
+from .serializers import ProductSerializer
 
 
 class ProductViewSet(viewsets.ModelViewSet):
@@ -80,5 +81,3 @@ def basket_delete(request, id):
     basket = Basket.objects.get(id=id)
     basket.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-

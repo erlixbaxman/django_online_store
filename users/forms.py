@@ -2,10 +2,11 @@ import uuid
 from datetime import timedelta
 
 from django import forms
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import (AuthenticationForm, UserChangeForm,
+                                       UserCreationForm)
 from django.utils.timezone import now
 
-from users.models import User, EmailVerification
+from users.models import EmailVerification, User
 
 
 class UserLoginForm(AuthenticationForm):
@@ -18,8 +19,8 @@ class UserLoginForm(AuthenticationForm):
         model = User
         fields = ('username', 'password')
 
-    def __init__(self, *args, **kwargs):  ## чтобы для каждого поля не прописывать класс - переопределили его.
-        super(UserLoginForm, self).__init__(*args,**kwargs)
+    def __init__(self, *args, **kwargs):  # чтобы для каждого поля не прописывать класс - переопределили его.
+        super(UserLoginForm, self).__init__(*args, **kwargs)
         for field_name, filed in self.fields.items():
             filed.widget.attrs['class'] = 'form-control py-4'
 
@@ -49,9 +50,8 @@ class UserRegistrationForm(UserCreationForm):
         record.send_verification_email()
         return user
 
-
-    def __init__(self, *args, **kwargs):  ## чтобы для каждого поля не прописывать класс - переопределили его.
-        super(UserRegistrationForm, self).__init__(*args,**kwargs)
+    def __init__(self, *args, **kwargs):  # чтобы для каждого поля не прописывать класс - переопределили его.
+        super(UserRegistrationForm, self).__init__(*args, **kwargs)
         for field_name, filed in self.fields.items():
             filed.widget.attrs['class'] = 'form-control py-4'
 
@@ -65,8 +65,8 @@ class UserProfileForm(UserChangeForm):
         model = User
         fields = ('username', 'email', 'first_name', 'last_name', 'image')
 
-    def __init__(self, *args, **kwargs):  ## чтобы для каждого поля не прописывать класс - переопределили его.
-        super(UserProfileForm, self).__init__(*args,**kwargs)
+    def __init__(self, *args, **kwargs):  # чтобы для каждого поля не прописывать класс - переопределили его.
+        super(UserProfileForm, self).__init__(*args, **kwargs)
         for field_name, filed in self.fields.items():
             filed.widget.attrs['class'] = 'form-control py-4'
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'

@@ -1,9 +1,10 @@
-from django.db import models
+from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 from django.core.mail import send_mail
+from django.db import models
 from django.urls import reverse
-from django.conf import settings
 from django.utils.timezone import now
+
 
 # Create your models here.
 class User(AbstractUser):
@@ -38,4 +39,3 @@ class EmailVerification(models.Model):
 
     def is_expired(self):
         return True if now() >= self.expiration else False
-

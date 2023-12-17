@@ -1,6 +1,6 @@
 from django.contrib import admin
-from products.models import ProductCategory, Product, Basket
 
+from products.models import Basket, Product, ProductCategory
 
 admin.site.register(ProductCategory)
 admin.site.register(Basket)
@@ -12,4 +12,3 @@ class ProductAdmin(admin.ModelAdmin):
     fields = ('name', 'image', 'description', 'short_description', ('price', 'quantity'), 'category')
     readonly_fields = ('short_description',)
     search_fields = ('name',)
-

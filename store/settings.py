@@ -10,10 +10,10 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
-# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "store.settings")
-import environ
 from pathlib import Path
 
+# os.environ.setdefault("DJANGO_SETTINGS_MODULE", "store.settings")
+import environ
 
 env = environ.Env()
 environ.Env.read_env()
@@ -164,4 +164,3 @@ EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
-
