@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',
 
     'products',
+    'orders',
     'users',
     'rest_framework',
     'rest_framework_swagger',

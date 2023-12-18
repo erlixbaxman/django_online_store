@@ -37,6 +37,7 @@ urlpatterns = [
          name='api_schema'),
     path('docs/', TemplateView.as_view(template_name='docs.html', extra_context={'schema_url': 'api_schema'})),
     path('accounts/', include('allauth.urls')),
+    path('orders/', include('orders.urls', namespace='orders')),
 ]
 
 if settings.DEBUG:
