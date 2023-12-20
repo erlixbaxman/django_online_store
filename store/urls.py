@@ -20,6 +20,7 @@ from django.urls import include, path
 from django.views.generic import TemplateView
 from rest_framework import routers
 from rest_framework.schemas import get_schema_view
+from orders.views import stripe_webhook_view
 
 from products.views import *
 
@@ -38,6 +39,8 @@ urlpatterns = [
     path('docs/', TemplateView.as_view(template_name='docs.html', extra_context={'schema_url': 'api_schema'})),
     path('accounts/', include('allauth.urls')),
     path('orders/', include('orders.urls', namespace='orders')),
+    path('webhook/stripe/', stripe_webhook_view, name='stripe_webhook'),
+
 ]
 
 if settings.DEBUG:
