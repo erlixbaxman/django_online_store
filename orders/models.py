@@ -1,5 +1,7 @@
 from django.db import models
 
+from users.models import User
+
 
 class Order(models.Model):
     CREATED = 0
@@ -20,7 +22,7 @@ class Order(models.Model):
     basket_history = models.JSONField(default=dict)
     created = models.DateTimeField(auto_now_add=True)
     status = models.PositiveSmallIntegerField(default=CREATED, choices=STATUSES)
-    initiator = models.DateTimeField(auto_now_add=True)
+    initiator = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'Order #{self.id}. {self.first_name} {self.last_name}'
